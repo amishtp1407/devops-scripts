@@ -41,6 +41,7 @@ def upload_file(file_path, version, env):
         upload_uri = f"/api/component/{component_id}"
         url = compute_url(upload_uri, env)
 
+        print(f"Username: {credentials['username']} Password: {credentials['password']} Component ID: {component_id}")
         print(f"Uploading File {file_path} to {env} Env")
         response = requests.post(url, auth=(credentials["username"], credentials["password"]), files=files, data=params)
         if response.status_code == 200:
