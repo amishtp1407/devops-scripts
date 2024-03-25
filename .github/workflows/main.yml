@@ -1,0 +1,18 @@
+name: Create and Push Offloader Package
+
+on:
+  push:
+    branches:
+      - main
+      - release-candidate
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout Offloader
+      uses: actions/checkout@v2
+    - name: Make Python script executable
+      run: chmod +x upload.py
+    - name: Print Branch Name
+      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
