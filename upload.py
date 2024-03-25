@@ -2,12 +2,8 @@
 
 import os
 import sys
-import json
 import hashlib
 import requests
-
-component_id = os.environ.get('COMPONENT_ID')
-upload_uri = f"/api/component/{component_id}"
 
 def calculate_sha512(file_path):
     sha512_hash = hashlib.sha512()
@@ -16,7 +12,7 @@ def calculate_sha512(file_path):
             sha512_hash.update(chunk)
     return sha512_hash.hexdigest()
 
-def compute_url(env):
+def compute_url(upload_uri, env):
     url = "https://license.haltdos.com"
     if env == "UAT":
         url = "https://license-uat.hltdos.com"
@@ -35,12 +31,15 @@ def upload_file(file_path, version, env):
         }
 
         files = {'file': open(file_path, 'rb')}
-        url = compute_url(env)
 
         credentials = {
             "username" : os.environ.get(f'{env}_API_USERNAME'),
             "password" : os.environ.get(f'{env}_API_PASSWORD')
         }
+
+        component_id = os.environ.get(f'{env}_COMPONENT_ID')
+        upload_uri = f"/api/component/{component_id}"
+        url = compute_url(upload_uri, env)
 
         print(f"Uploading File {file_path} to {env} Env")
         response = requests.post(url, auth=(credentials["username"], credentials["password"]), files=files, data=params)
