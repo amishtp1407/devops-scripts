@@ -15,4 +15,4 @@ jobs:
     - name: Make Python script executable
       run: chmod +x upload.py
     - name: Print Branch Name
-      run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
+      run: echo "Branch name is ${GITHUB_REF##*/}"
