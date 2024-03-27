@@ -17,7 +17,7 @@ jobs:
     - name: Print Branch Name
       run: echo "Branch name is ${GITHUB_REF##*/}"
     - name: Install Script Requirements
-      run: pip install -r devops-scripts/requirements.txt
+      run: pip install -r requirements.txt
     - name: Push to UAT
       run: |
         upload.py ${GITHUB_REF##*/}
